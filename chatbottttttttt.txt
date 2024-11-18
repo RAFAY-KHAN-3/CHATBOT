@@ -1,0 +1,147 @@
+ 
+import nltk
+from nltk.chat.util import Chat, reflections
+
+# List to store orders, sides, and special requests
+order_list = []
+side_list = []
+special_requests = []
+delivery_address = ""
+
+# Define some pairs of input and response
+pairs = [
+    [
+        r"my name is (.*)",
+        ["Hello %1! How can I assist you today?", "Hi %1! What can I do for you?"]
+    ],
+    [
+        r"hi|hello|hey|greetings",
+        ["Hello! How can I assist you?", "Hi there! What can I help you with today?"]
+    ],
+    [
+        r"what is your name?",
+        ["I am a food-bot chatbot here to help you with your orders!"]
+    ],
+    [
+        r"how can I order food?",
+        ["You can browse our menu and select your items. Would you like to see our menu?"]
+    ],
+    [
+        r"what is the menu?|show me the menu|list the menu",
+        [
+            "We offer:\n- Original Recipe Chicken\n- Extra Crispy Chicken\n- Chicken Sandwiches\n- Chicken Tenders\n- Fries\n- Biscuits\n- Soft Drinks\n\nWhat would you like to order?"
+        ]
+    ],
+    [
+        r"i want to order (.*)",
+        ["Great choice! How many would you like of %1?", "Sure! How many of %1 do you want?"]
+    ],
+    [
+        r"i want (.*) to go",
+        ["Sure! Would you like any sides or drinks with that %1? Please say 'yes' or 'no'."]
+    ],
+    [
+        r"yes",
+        ["Great! Please choose a side: Fries, Mashed Potatoes, Coleslaw, or Corn on the Cob."]
+    ],
+    [
+        r"no",
+        ["Okay, skipping sides. Would you like anything else with your order?"]
+    ],
+
+    [
+        r"(.*) fries|mashed potatoes|coleslaw|corn on the cob",
+        ["Ok, great! We've added %1 to your order. Would you like to add another side or something else?"]
+    ],
+    [
+        r"how much is (.*)",
+        ["The price of %1 varies, but generally, it's around $5-$10. Would you like to order one?"]
+    ],
+
+    [
+        r"do you have any deals?|are there any promotions?",
+        ["Yes! We have special deals on family meals. Would you like to know more about them?"]
+    ],
+    [
+        r"tell me about the family meals",
+        [
+            "Our family meals include:\n- 8-Piece Chicken with 2 large sides and 4 biscuits\n- 12-Piece Chicken with 3 large sides and 6 biscuits\nWhat sounds good to you?"]
+    ],
+    [
+        r"i want to remove (.*) from my order",
+        ["%1 has been removed from your order. Would you like to modify anything else?"]
+    ],
+    [
+        r"i want to give feedback|i have feedback",
+        ["We appreciate your feedback! Please share what you think."]
+    ],
+    [
+        r"i don't like the food|the food is not good|the food was bad",
+        [
+            "I'm really sorry to hear that you didn't like the food. We appreciate your feedback and will work on improving."]
+    ],
+    [
+        r"i love the food|the food is great|the food was amazing",
+        ["Thank you! We're so happy to hear that you enjoyed the food!"]
+    ],
+    [
+        r"confirm my order",
+        ["Your order has been placed! Would you like to review your order with special requests?"]
+    ],
+    [
+        r"review my order|what did i order",
+        ["You ordered:\n- " + "\n- ".join(order_list) + "\n\nSides:\n- " + "\n- ".join(
+            side_list) + "\n\nSpecial Requests:\n- " + "\n- ".join(
+            special_requests) + "\nWould you like to add or modify anything?"]
+    ],
+    [
+        r"add (.*) to my order",
+        ["%1 has been added to your order. Would you like to add anything else?"]
+    ],
+    [
+        r"i have a special request|special request",
+        ["Sure! What special request would you like to add to your order?"]
+    ],
+    [
+        r"add (.*) as a special request",
+        ["'%1' has been added to your special requests. Would you like to add another special request?"]
+    ],
+    [
+        r"no more special requests|done with special requests",
+        ["Great! We have added the special requests to your order. Would you like to confirm your order now?"]
+    ],
+    [
+        r"i want to provide my delivery address",
+        ["Please provide your delivery address, and we'll get your order to you."]
+    ],
+    [
+        r"my address is (.*)",
+        ["Got it! Your address is %1. We'll deliver your order there."]
+    ],
+    [
+        r"quit|exit|bye",
+        ["Thank you for chatting with me. Have a great day and enjoy your meal!"]
+    ],
+    [
+        r"(.*)",
+        ["I'm sorry, I don't understand that. Could you please rephrase your question?"]
+    ],
+]
+
+
+# Create the chatbot
+def chatbot():
+    global order_list, side_list, special_requests, delivery_address
+    order_list = []
+    side_list = []
+    special_requests = []
+    delivery_address = ""
+
+    print("Hi! I am your food-bot chatbot. Type 'quit' to exit.")
+    chat = Chat(pairs, reflections)
+    chat.converse()
+
+
+# Run the chatbot
+if __name__ == "__main__":
+    chatbot()
